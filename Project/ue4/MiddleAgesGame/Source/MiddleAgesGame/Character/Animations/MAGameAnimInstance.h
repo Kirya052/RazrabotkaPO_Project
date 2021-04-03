@@ -14,4 +14,18 @@ class MIDDLEAGESGAME_API UMAGameAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void NativeBeginPlay() override;
+	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "MAGame AnimInstance")
+	float Speed = 0.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "MAGame AnimInstance")
+	bool bIsFalling = false;
+
+private:
+	TWeakObjectPtr<class AAssasinCharacter> CachedBaseCharacter;
 };
