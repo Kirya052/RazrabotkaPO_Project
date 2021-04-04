@@ -17,4 +17,5 @@ public:
 	virtual void LookUp(float Value) {};
 	virtual void Turn(float Value) {};
 
+	virtual void ChangeCrouchState();
 };

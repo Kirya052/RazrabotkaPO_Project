@@ -2,6 +2,18 @@
 
 
 #include "MAGCharacter.h"
+#include <GameFramework/CharacterMovementComponent.h>
 
 
 
+void AMAGCharacter::ChangeCrouchState()
+{
+	if (GetCharacterMovement()->IsCrouching())
+	{
+		UnCrouch();
+	}
+	else
+	{
+		Crouch();
+	}
+}

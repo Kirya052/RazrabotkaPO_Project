@@ -25,6 +25,7 @@ private:
 	void MoveRight(float Value);
 	void LookUp(float Value);
 	void Turn(float Value);
+	void ChangeCrouchState();
 	void Jump();
 
 	TSoftObjectPtr<class AMAGCharacter> CachedBaseCharacter;
