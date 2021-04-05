@@ -29,6 +29,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "MAGame AnimInstance")
 	bool bIsCrouching = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "MAGame AnimInstance")
+	bool bIsAttack = false;
+
 private:
 	TWeakObjectPtr<class AAssasinCharacter> CachedBaseCharacter;
 };

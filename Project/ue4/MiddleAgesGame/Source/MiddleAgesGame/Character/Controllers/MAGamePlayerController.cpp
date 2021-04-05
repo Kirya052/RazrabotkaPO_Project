@@ -19,6 +19,8 @@ void AMAGamePlayerController::SetupInputComponent()
 	InputComponent->BindAxis("Turn", this, &AMAGamePlayerController::Turn);
 	InputComponent->BindAction("Crouch", EInputEvent::IE_Pressed, this, &AMAGamePlayerController::ChangeCrouchState);
 	InputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &AMAGamePlayerController::Jump);
+	InputComponent->BindAction("Attack", EInputEvent::IE_Pressed, this, &AMAGamePlayerController::Attack);
+	InputComponent->BindAction("Attack", EInputEvent::IE_Released, this, &AMAGamePlayerController::AttackEnd);
 }
 
 void AMAGamePlayerController::MoveForward(float Value)
@@ -67,5 +69,21 @@ void AMAGamePlayerController::Jump()
 	if (CachedBaseCharacter.IsValid())
 	{
 		CachedBaseCharacter->Jump();
+	}
+}
+
+void AMAGamePlayerController::Attack()
+{
+	if (CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->Attack();
+	}
+}
+
+void AMAGamePlayerController::AttackEnd()
+{
+	if (CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->AttackEnd();
 	}
 }

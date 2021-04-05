@@ -25,4 +25,5 @@ void UMAGameAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	Speed = CharacterMovement->Velocity.Size();
 	bIsFalling = CharacterMovement->IsFalling();
 	bIsCrouching = CharacterMovement->IsCrouching();
+	bIsAttack = CachedBaseCharacter->GetAttack();
 }

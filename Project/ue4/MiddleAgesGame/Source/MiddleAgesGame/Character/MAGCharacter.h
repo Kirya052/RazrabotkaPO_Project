@@ -18,4 +18,7 @@ public:
 	virtual void Turn(float Value) {};
 
 	virtual void ChangeCrouchState();
+
+	virtual void Attack() {};
+	virtual void AttackEnd() {};
 };

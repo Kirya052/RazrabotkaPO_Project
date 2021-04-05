@@ -56,3 +56,13 @@ void AAssasinCharacter::LookUp(float Value)
 	AddControllerPitchInput(Value);
 }
 
+void AAssasinCharacter::Attack()
+{
+	bIsAttack = true;
+}
+
+void AAssasinCharacter::AttackEnd()
+{
+	bIsAttack = false;
+}
+

@@ -22,11 +22,18 @@ public:
 	virtual void Turn(float Value) override;
 	virtual void LookUp(float Value) override;
 
-protected:
+	virtual void Attack() override;
+	virtual void AttackEnd() override;
 
+	bool GetAttack() { return bIsAttack; }
+
+protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Camera")
 	class UCameraComponent* CameraComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Camera")
 	class USpringArmComponent* SpringArmComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character | Attack")
+	bool bIsAttack = false;
 };

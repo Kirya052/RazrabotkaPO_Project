@@ -28,5 +28,8 @@ private:
 	void ChangeCrouchState();
 	void Jump();
 
+	void Attack();
+	void AttackEnd();
+
 	TSoftObjectPtr<class AMAGCharacter> CachedBaseCharacter;
 };
