@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Engine.h"
 #include "MAGCharacter.h"
 #include "AssasinCharacter.generated.h"
 
@@ -26,6 +26,9 @@ public:
 	virtual void AttackEnd() override;
 
 	bool GetAttack() { return bIsAttack; }
+
+	virtual void Tick(float DeltaSeconds) override;
+	void CheckForInteractables();
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Camera")

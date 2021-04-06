@@ -5,6 +5,7 @@
 #include <GameFramework/SpringArmComponent.h>
 #include <Camera/CameraComponent.h>
 #include <GameFramework/CharacterMovementComponent.h>
+#include "../Inventory/InventoryController.h"
 
 
 
@@ -64,5 +65,45 @@ void AAssasinCharacter::Attack()
 void AAssasinCharacter::AttackEnd()
 {
 	bIsAttack = false;
+}
+
+void AAssasinCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	CheckForInteractables();
+}
+
+void AAssasinCharacter::CheckForInteractables()
+{
+	// Create a LineTrace to check for a hit
+	FHitResult HitResult;
+
+	int32 Range = 500;
+	FVector StartTrace = CameraComponent->GetComponentLocation();
+	FVector EndTrace = (CameraComponent->GetForwardVector() * Range) + StartTrace;
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+
+	AInventoryController* IController = Cast<AInventoryController>(GetController());
+
+	if (IController)
+	{
+		// Check if something is hit
+		if (GetWorld()->LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_Visibility, QueryParams))
+		{
+			// Cast the actor to AInteractable
+			AInteractable* Interactable = Cast<AInteractable>(HitResult.GetActor());
+			// If the cast is successful
+			if (Interactable)
+			{
+				IController->CurrentInteractable = Interactable;
+				return;
+			}
+		}
+
+		IController->CurrentInteractable = nullptr;
+	}
 }
 
