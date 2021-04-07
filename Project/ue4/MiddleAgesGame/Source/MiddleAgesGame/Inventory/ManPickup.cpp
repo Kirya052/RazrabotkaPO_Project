@@ -2,7 +2,7 @@
 
 
 #include "ManPickup.h"
-#include "InventoryController.h"
+#include "../Character/Controllers/MAGamePlayerController.h"
 
 AManPickup::AManPickup()
 {
@@ -19,7 +19,7 @@ void AManPickup::Interact_Implementation(APlayerController* PlayerController)
 {
 	Super::Interact_Implementation(PlayerController);
 
-	AInventoryController* IController = Cast<AInventoryController>(PlayerController);
+	AMAGamePlayerController* IController = Cast<AMAGamePlayerController>(PlayerController);
 	if (IController->AddItemToInventoryByID(ItemID))
 		Destroy();
 }

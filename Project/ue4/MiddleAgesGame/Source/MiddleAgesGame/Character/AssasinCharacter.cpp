@@ -5,7 +5,7 @@
 #include <GameFramework/SpringArmComponent.h>
 #include <Camera/CameraComponent.h>
 #include <GameFramework/CharacterMovementComponent.h>
-#include "../Inventory/InventoryController.h"
+#include "Controllers/MAGamePlayerController.h"
 
 
 
@@ -86,7 +86,7 @@ void AAssasinCharacter::CheckForInteractables()
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(this);
 
-	AInventoryController* IController = Cast<AInventoryController>(GetController());
+	AMAGamePlayerController* IController = Cast<AMAGamePlayerController>(GetController());
 
 	if (IController)
 	{

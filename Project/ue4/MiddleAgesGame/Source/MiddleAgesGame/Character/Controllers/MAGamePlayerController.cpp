@@ -2,12 +2,20 @@
 
 
 #include "MAGamePlayerController.h"
-#include "../MAGCharacter.h"
+#include "../AssasinCharacter.h"
+#include "../../Inventory/InventoryGameState.h"
 
 void AMAGamePlayerController::SetPawn(APawn* InPawn)
 {
 	Super::SetPawn(InPawn);
 	CachedBaseCharacter = Cast<AMAGCharacter>(InPawn);
+}
+
+
+AMAGamePlayerController::AMAGamePlayerController()
+{
+	InventorySlotLimit = 50;
+	InventoryWeightLimit = 500;
 }
 
 void AMAGamePlayerController::SetupInputComponent()
@@ -21,6 +29,16 @@ void AMAGamePlayerController::SetupInputComponent()
 	InputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &AMAGamePlayerController::Jump);
 	InputComponent->BindAction("Attack", EInputEvent::IE_Pressed, this, &AMAGamePlayerController::Attack);
 	InputComponent->BindAction("Attack", EInputEvent::IE_Released, this, &AMAGamePlayerController::AttackEnd);
+	InputComponent->BindAction("Interact", EInputEvent::IE_Pressed, this, &AMAGamePlayerController::Interact);
+}
+
+
+void AMAGamePlayerController::Interact()
+{
+	if (CurrentInteractable)
+	{
+		CurrentInteractable->Interact(this);
+	}
 }
 
 void AMAGamePlayerController::MoveForward(float Value)
@@ -86,4 +104,34 @@ void AMAGamePlayerController::AttackEnd()
 	{
 		CachedBaseCharacter->AttackEnd();
 	}
+}
+
+int32 AMAGamePlayerController::GetInventoryWeight()
+{
+	int32 Weight = 0;
+
+	for (auto& Item : Inventory)
+	{
+		Weight += Item.Weight;
+	}
+	return Weight;
+}
+
+bool AMAGamePlayerController::AddItemToInventoryByID(FName ID)
+{
+	AInventoryGameState* GameState = Cast<AInventoryGameState>(GetWorld()->GetGameState());
+	UDataTable* ItemTable = GameState->GetItemDB();
+	FInventoryItem* ItemToAdd = ItemTable->FindRow<FInventoryItem>(ID, "");
+
+	if (ItemToAdd)
+	{
+		// If a Slot- or WeightLimit are not needed remove them in this line
+		if (Inventory.Num() < InventorySlotLimit && GetInventoryWeight() + ItemToAdd->Weight <= InventoryWeightLimit)
+		{
+			Inventory.Add(*ItemToAdd);
+			ReloadInventory();
+			return true;
+		}
+	}
+	return false;
 }
