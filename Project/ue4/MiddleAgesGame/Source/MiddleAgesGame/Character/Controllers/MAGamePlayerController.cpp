@@ -30,6 +30,8 @@ void AMAGamePlayerController::SetupInputComponent()
 	InputComponent->BindAction("Attack", EInputEvent::IE_Pressed, this, &AMAGamePlayerController::Attack);
 	InputComponent->BindAction("Attack", EInputEvent::IE_Released, this, &AMAGamePlayerController::AttackEnd);
 	InputComponent->BindAction("Interact", EInputEvent::IE_Pressed, this, &AMAGamePlayerController::Interact);
+	InputComponent->BindAction("EquipWeapon", EInputEvent::IE_Pressed, this, &AMAGamePlayerController::EquipWeapon);
+	InputComponent->BindAction("SpawnWeapon", EInputEvent::IE_Pressed, this, &AMAGamePlayerController::SpawnWeapon);
 }
 
 
@@ -103,6 +105,24 @@ void AMAGamePlayerController::AttackEnd()
 	if (CachedBaseCharacter.IsValid())
 	{
 		CachedBaseCharacter->AttackEnd();
+	}
+}
+
+
+void AMAGamePlayerController::EquipWeapon()
+{
+	if (CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->EquipWeapon();
+	}
+}
+
+
+void AMAGamePlayerController::SpawnWeapon()
+{
+	if (CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->SpawnWeapon();
 	}
 }
 

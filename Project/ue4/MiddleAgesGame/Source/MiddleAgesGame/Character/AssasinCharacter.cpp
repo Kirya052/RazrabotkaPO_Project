@@ -6,6 +6,8 @@
 #include <Camera/CameraComponent.h>
 #include <GameFramework/CharacterMovementComponent.h>
 #include "Controllers/MAGamePlayerController.h"
+#include "Engine/World.h"
+#include "../Weapons/SwordWeapon.h"
 
 
 
@@ -25,6 +27,8 @@ AAssasinCharacter::AAssasinCharacter()
 
 	GetCharacterMovement()->bOrientRotationToMovement = 1;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
+
+	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComp");
 }
 
 void AAssasinCharacter::MoveForward(float Value)
@@ -104,6 +108,66 @@ void AAssasinCharacter::CheckForInteractables()
 		}
 
 		IController->CurrentInteractable = nullptr;
+	}
+}
+
+
+void AAssasinCharacter::SpawnWeapon()
+{
+	if (!GetWorld() || bIsWeaponSpawned)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Weapon is already spawned"));
+		return;
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Spawn weapon"));
+	ASwordWeapon* Sword = GetWorld()->SpawnActor<ASwordWeapon>(SwordWeapon);
+	if (Sword)
+	{
+		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
+		Sword->AttachToComponent(GetMesh(), AttachmentRules, "SwordSocket");
+		bIsWeaponSpawned = true;
+		EquipedWeapon = Sword;
+		bIsWeaponEquiped = true;
+	}
+
+}
+
+
+void AAssasinCharacter::EquipWeapon()
+{
+	if (!bIsWeaponSpawned)
+	{
+		return;
+	}
+	if (bIsWeaponEquiped)
+	{
+		SocketName = "EquipedSocket";
+		bIsWeaponEquiped = false;
+	}
+	else
+	{
+		SocketName = "SwordSocket";
+		bIsWeaponEquiped = true;
+	}
+
+	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
+	EquipedWeapon->AttachToComponent(GetMesh(), AttachmentRules, SocketName);
+}
+
+UAbilitySystemComponent* AAssasinCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComp;
+}
+
+void AAssasinCharacter::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAquire)
+{
+	if (AbilitySystemComp)
+	{
+		if (HasAuthority() && AbilityToAquire)
+		{
+			AbilitySystemComp->GiveAbility(FGameplayAbilitySpec(AbilityToAquire, 1, 0));
+		}
+		AbilitySystemComp->InitAbilityActorInfo(this, this);
 	}
 }
 

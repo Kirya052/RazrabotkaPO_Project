@@ -4,13 +4,15 @@
 
 #include "Engine.h"
 #include "MAGCharacter.h"
+#include "AbilitySystemInterface.h"
+#include "AbilitySystemComponent.h"
+#include "Abilities/GameplayAbility.h"
 #include "AssasinCharacter.generated.h"
 
-/**
- * 
- */
+
+
 UCLASS(Blueprintable)
-class MIDDLEAGESGAME_API AAssasinCharacter : public AMAGCharacter
+class MIDDLEAGESGAME_API AAssasinCharacter : public AMAGCharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 	
@@ -30,6 +32,9 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 	void CheckForInteractables();
 
+	virtual void SpawnWeapon() override;
+	virtual void EquipWeapon() override;
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Camera")
 	class UCameraComponent* CameraComponent;
@@ -39,4 +44,30 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character | Attack")
 	bool bIsAttack = false;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	TSubclassOf<class ASwordWeapon> SwordWeapon;
+
+	UPROPERTY(EditAnywhere, Category = "EquipWeapon")
+	class ASwordWeapon* EquipedWeapon;
+
+
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
+	UAbilitySystemComponent* AbilitySystemComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
+	bool bIsWeaponSpawned = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
+	bool bIsWeaponEquiped = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
+	FName SocketName = "SwordSocket";
+
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Assasin Character")
+	void AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAquire);
+
 };

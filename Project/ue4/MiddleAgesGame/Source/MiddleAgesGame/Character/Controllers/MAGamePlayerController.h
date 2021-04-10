@@ -33,6 +33,9 @@ private:
 
 	void Attack();
 	void AttackEnd();
+	
+	void EquipWeapon();
+	void SpawnWeapon();
 
 	TSoftObjectPtr<class AMAGCharacter> CachedBaseCharacter;
 

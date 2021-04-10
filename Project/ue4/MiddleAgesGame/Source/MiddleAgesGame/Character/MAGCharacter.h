@@ -21,4 +21,6 @@ public:
 
 	virtual void Attack() {};
 	virtual void AttackEnd() {};
+	virtual void SpawnWeapon() {};
+	virtual void EquipWeapon() {};
 };
