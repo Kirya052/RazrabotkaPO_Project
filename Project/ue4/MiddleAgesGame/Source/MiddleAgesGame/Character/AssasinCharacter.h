@@ -45,16 +45,24 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character | Attack")
 	bool bIsAttack = false;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	TSubclassOf<class ASwordWeapon> SwordWeapon;
 
 	UPROPERTY(EditAnywhere, Category = "EquipWeapon")
 	class ASwordWeapon* EquipedWeapon;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EquipWeapon")
+	class UCapsuleComponent* CapsuleCollider;
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
 	UAbilitySystemComponent* AbilitySystemComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
+	class UAttributeSetBase* AttributeSetComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon Collision")
+	float WeaponCapsuleHeight=20.0f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
 	bool bIsWeaponSpawned = false;

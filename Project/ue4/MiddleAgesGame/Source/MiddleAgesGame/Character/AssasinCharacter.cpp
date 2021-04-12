@@ -8,6 +8,7 @@
 #include "Controllers/MAGamePlayerController.h"
 #include "Engine/World.h"
 #include "../Weapons/SwordWeapon.h"
+#include "../AbilitySystem/AttributeSetBase.h"
 
 
 
@@ -28,7 +29,15 @@ AAssasinCharacter::AAssasinCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = 1;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 
+	CapsuleCollider = CreateDefaultSubobject<UCapsuleComponent>("Capsule component");
+	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+	CapsuleCollider->SetCapsuleRadius(10.0f);
+	CapsuleCollider->SetCapsuleHalfHeight(WeaponCapsuleHeight);
+	CapsuleCollider->SetRelativeLocation(FVector::FVector(0.0f, 0.0f, WeaponCapsuleHeight / 2));
+	CapsuleCollider->AttachToComponent(GetMesh(), AttachmentRules, "SwordSocket");
+
 	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComp");
+	AttributeSetComp = CreateDefaultSubobject<UAttributeSetBase>("AttributeSetBase");
 }
 
 void AAssasinCharacter::MoveForward(float Value)
@@ -76,6 +85,7 @@ void AAssasinCharacter::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 	CheckForInteractables();
+
 }
 
 void AAssasinCharacter::CheckForInteractables()
@@ -123,11 +133,10 @@ void AAssasinCharacter::SpawnWeapon()
 	ASwordWeapon* Sword = GetWorld()->SpawnActor<ASwordWeapon>(SwordWeapon);
 	if (Sword)
 	{
-		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
-		Sword->AttachToComponent(GetMesh(), AttachmentRules, "SwordSocket");
 		bIsWeaponSpawned = true;
 		EquipedWeapon = Sword;
-		bIsWeaponEquiped = true;
+		bIsWeaponEquiped = false;
+		AAssasinCharacter::EquipWeapon();
 	}
 
 }
@@ -143,12 +152,17 @@ void AAssasinCharacter::EquipWeapon()
 	{
 		SocketName = "EquipedSocket";
 		bIsWeaponEquiped = false;
+		WeaponCapsuleHeight = 20.0f;
 	}
 	else
 	{
 		SocketName = "SwordSocket";
+		WeaponCapsuleHeight = 50.0f;
 		bIsWeaponEquiped = true;
 	}
+
+	CapsuleCollider->SetCapsuleHalfHeight(WeaponCapsuleHeight);
+	CapsuleCollider->SetRelativeLocation(FVector(0.0f, 0.0f, WeaponCapsuleHeight / 2));
 
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
 	EquipedWeapon->AttachToComponent(GetMesh(), AttachmentRules, SocketName);
