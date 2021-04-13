@@ -14,6 +14,7 @@
 
 AAssasinCharacter::AAssasinCharacter()
 {
+	PrimaryActorTick.bCanEverTick = true;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
@@ -36,8 +37,16 @@ AAssasinCharacter::AAssasinCharacter()
 	CapsuleCollider->SetRelativeLocation(FVector::FVector(0.0f, 0.0f, WeaponCapsuleHeight / 2));
 	CapsuleCollider->AttachToComponent(GetMesh(), AttachmentRules, "SwordSocket");
 
-	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComp");
-	AttributeSetComp = CreateDefaultSubobject<UAttributeSetBase>("AttributeSetBase");
+	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AttributeSetComp = CreateDefaultSubobject<UAttributeSetBase>("AttributeSetComponent");
+}
+
+
+void AAssasinCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	AttributeSetComp->OnHealthChange.AddDynamic(this, &AAssasinCharacter::OnHealthChanged);
 }
 
 void AAssasinCharacter::MoveForward(float Value)
@@ -183,5 +192,10 @@ void AAssasinCharacter::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAqu
 		}
 		AbilitySystemComp->InitAbilityActorInfo(this, this);
 	}
+}
+
+void AAssasinCharacter::OnHealthChanged(float Health, float MaxHealth)
+{
+	BP_OnHealthChanged(Health, MaxHealth);
 }
 

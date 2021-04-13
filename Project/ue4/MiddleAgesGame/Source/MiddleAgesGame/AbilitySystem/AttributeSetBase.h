@@ -9,6 +9,9 @@
 /**
  * 
  */
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthChangeDelegate, float, Health, float, MaxHealth);
+
 UCLASS()
 class MIDDLEAGESGAME_API UAttributeSetBase : public UAttributeSet
 {
@@ -19,4 +22,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet base")
 	FGameplayAttributeData Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet base")
+	FGameplayAttributeData MaxHealth;
+
+	void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
+
+	FOnHealthChangeDelegate OnHealthChange;
 };
