@@ -33,5 +33,5 @@ protected:
 	bool bIsAttack = false;
 
 private:
-	TWeakObjectPtr<class AMAGCharacter> CachedBaseCharacter;
+	TWeakObjectPtr<class AAssasinCharacter> CachedBaseCharacter;
 };

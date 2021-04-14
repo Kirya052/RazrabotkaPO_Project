@@ -8,8 +8,8 @@
 void UMAGameAnimInstance::NativeBeginPlay()
 {
 	Super::NativeBeginPlay();
-	checkf(TryGetPawnOwner()->IsA<AMAGCharacter>(), TEXT("Can worked only AAssasinCharacter"));
-	CachedBaseCharacter = StaticCast<AMAGCharacter*>(TryGetPawnOwner());
+	checkf(TryGetPawnOwner()->IsA<AAssasinCharacter>(), TEXT("Can worked only AAssasinCharacter"));
+	CachedBaseCharacter = StaticCast<AAssasinCharacter*>(TryGetPawnOwner());
 }
 
 void UMAGameAnimInstance::NativeUpdateAnimation(float DeltaSeconds)

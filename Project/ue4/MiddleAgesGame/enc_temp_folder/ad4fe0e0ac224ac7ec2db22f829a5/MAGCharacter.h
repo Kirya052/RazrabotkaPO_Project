@@ -19,7 +19,6 @@ public:
 
 	virtual void ChangeCrouchState();
 
-	virtual bool GetAttack() { return false; };
 	virtual void Attack() {};
 	virtual void AttackEnd() {};
 	virtual void SpawnWeapon() {};

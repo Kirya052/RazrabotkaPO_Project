@@ -2,22 +2,23 @@
 
 #pragma once
 
-#include "Engine.h"
+#include "CoreMinimal.h"
 #include "MAGCharacter.h"
 #include "AbilitySystemInterface.h"
 #include "AbilitySystemComponent.h"
 #include "Abilities/GameplayAbility.h"
-#include "AssasinCharacter.generated.h"
+#include "AICharacter.generated.h"
 
-
-
+/**
+ * 
+ */
 UCLASS(Blueprintable)
-class MIDDLEAGESGAME_API AAssasinCharacter : public AMAGCharacter, public IAbilitySystemInterface
+class MIDDLEAGESGAME_API AAICharacter : public AMAGCharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 	
-public: 
-	AAssasinCharacter();
+public:
+	AAICharacter();
 
 	virtual void BeginPlay() override;
 
@@ -32,17 +33,11 @@ public:
 	bool GetAttack() { return bIsAttack; }
 
 	virtual void Tick(float DeltaSeconds) override;
-	void CheckForInteractables();
 
 	virtual void SpawnWeapon() override;
 	virtual void EquipWeapon() override;
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Camera")
-	class UCameraComponent* CameraComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Camera")
-	class USpringArmComponent* SpringArmComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character | Attack")
 	bool bIsAttack = false;
@@ -64,7 +59,7 @@ public:
 	class UAttributeSetBase* AttributeSetComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon Collision")
-	float WeaponCapsuleHeight=20.0f;
+	float WeaponCapsuleHeight = 20.0f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
 	bool bIsWeaponSpawned = false;
@@ -83,9 +78,9 @@ public:
 	UFUNCTION()
 	void OnHealthChanged(float Health, float MaxHealth);
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Assasin Character", meta = (DisplayName = "OnHealthChanged"))
+	UFUNCTION(BlueprintImplementableEvent, Category = "AI Character", meta = (DisplayName = "OnHealthChanged"))
 	void BP_OnHealthChanged(float Health, float MaxHealth);
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Assasin Character", meta = (DisplayName = "Die"))
-	void BP_DIe();
+	UFUNCTION(BlueprintImplementableEvent, Category = "AI Character", meta = (DisplayName = "Die"))
+	void BP_Die();
 };
