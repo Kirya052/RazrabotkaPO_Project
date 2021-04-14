@@ -19,8 +19,6 @@ class MIDDLEAGESGAME_API AAssasinCharacter : public AMAGCharacter, public IAbili
 public: 
 	AAssasinCharacter();
 
-	void BeginPlay() override;
-
 	virtual void MoveForward(float Value) override;
 	virtual void MoveRight(float Value) override;
 	virtual void Turn(float Value) override;
@@ -58,7 +56,7 @@ protected:
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
-	class UAbilitySystemComponent* AbilitySystemComp;
+	UAbilitySystemComponent* AbilitySystemComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
 	class UAttributeSetBase* AttributeSetComp;
@@ -80,9 +78,4 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Assasin Character")
 	void AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAquire);
 
-	UFUNCTION()
-	void OnHealthChanged(float Health, float MaxHealth);
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "Assasin character", meta = (DisplayName = "OnHealthChanged"))
-	void BP_OnHealthChanged(float Health, float MaxHealth);
 };

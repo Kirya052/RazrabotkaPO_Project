@@ -14,7 +14,6 @@
 
 AAssasinCharacter::AAssasinCharacter()
 {
-	PrimaryActorTick.bCanEverTick = true;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
@@ -31,22 +30,13 @@ AAssasinCharacter::AAssasinCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 
 	CapsuleCollider = CreateDefaultSubobject<UCapsuleComponent>("Capsule component");
-	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
 	CapsuleCollider->SetCapsuleRadius(10.0f);
 	CapsuleCollider->SetCapsuleHalfHeight(WeaponCapsuleHeight);
 	CapsuleCollider->SetRelativeLocation(FVector::FVector(0.0f, 0.0f, WeaponCapsuleHeight / 2));
-	CapsuleCollider->AttachToComponent(GetMesh(), AttachmentRules, "SwordSocket");
+	CapsuleCollider->SetupAttachment(GetMesh(), "SwordSocket");
 
-	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
-	AttributeSetComp = CreateDefaultSubobject<UAttributeSetBase>("AttributeSetComponent");
-}
-
-
-void AAssasinCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-
-	AttributeSetComp->OnHealthChange.AddDynamic(this, &AAssasinCharacter::OnHealthChanged);
+	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComp");
+	AttributeSetComp = CreateDefaultSubobject<UAttributeSetBase>("AttributeSetBase");
 }
 
 void AAssasinCharacter::MoveForward(float Value)
@@ -192,10 +182,5 @@ void AAssasinCharacter::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAqu
 		}
 		AbilitySystemComp->InitAbilityActorInfo(this, this);
 	}
-}
-
-void AAssasinCharacter::OnHealthChanged(float Health, float MaxHealth)
-{
-	BP_OnHealthChanged(Health, MaxHealth);
 }
 
