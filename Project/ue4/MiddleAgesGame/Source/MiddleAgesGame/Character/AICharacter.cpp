@@ -7,6 +7,8 @@
 #include "../Weapons/SwordWeapon.h"
 #include "../AbilitySystem/AttributeSetBase.h"
 #include "Components/CapsuleComponent.h"
+#include "AIController.h"
+#include "BrainComponent.h"
 
 
 
@@ -150,8 +152,25 @@ void AAICharacter::OnHealthChanged(float Health, float MaxHealth)
 {
 	if (Health <= 0.f)
 	{
+		bIsDead = true;
+		Dead();
 		BP_Die();
 	}
 	BP_OnHealthChanged(Health, MaxHealth);
+}
+
+bool AAICharacter::IsOtherHostile(AMAGCharacter* Other)
+{
+	return TeamID != Other->GetTeamID();
+}
+
+void AAICharacter::Dead()
+{
+	AAIController* AIC = Cast<AAIController>(GetController());
+	if (AIC)
+	{
+		AIC->GetBrainComponent()->StopLogic("Dead");
+	}
+
 }
 

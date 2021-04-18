@@ -37,6 +37,8 @@ AAssasinCharacter::AAssasinCharacter()
 
 	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComp");
 	AttributeSetComp = CreateDefaultSubobject<UAttributeSetBase>("AttributeSetBase");
+
+	TeamID = 255;
 }
 
 
@@ -196,8 +198,24 @@ void AAssasinCharacter::OnHealthChanged(float Health, float MaxHealth)
 {
 	if (Health <= 0.0f)
 	{
+		Dead();
 		BP_DIe();
+		bIsDead = true;
 	}
 	BP_OnHealthChanged(Health, MaxHealth);
+}
+
+bool AAssasinCharacter::IsOtherHostile(AMAGCharacter* Other)
+{
+	return TeamID != Other->GetTeamID();
+}
+
+void AAssasinCharacter::Dead()
+{
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (PC) 
+	{
+		PC->DisableInput(PC);
+	}
 }
 

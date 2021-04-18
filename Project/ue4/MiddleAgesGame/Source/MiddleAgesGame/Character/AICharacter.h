@@ -83,4 +83,13 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "AI Character", meta = (DisplayName = "Die"))
 	void BP_Die();
+
+	UFUNCTION(BlueprintCallable, Category = "AI Character")
+	bool IsOtherHostile(AMAGCharacter* Other);
+
+protected:
+	uint8 TeamID;
+	bool bIsDead = false;
+
+	virtual void Dead() override;
 };

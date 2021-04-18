@@ -24,4 +24,10 @@ public:
 	virtual void AttackEnd() {};
 	virtual void SpawnWeapon() {};
 	virtual void EquipWeapon() {};
+
+	virtual uint8 GetTeamID() const;
+protected:
+	uint8 TeamID = 255;
+	virtual void AutoDeterminTeamIDbyControllerType();
+	virtual void Dead() {};
 };

@@ -17,3 +17,18 @@ void AMAGCharacter::ChangeCrouchState()
 		Crouch();
 	}
 }
+
+
+
+uint8 AMAGCharacter::GetTeamID() const
+{
+	return TeamID;
+}
+
+void AMAGCharacter::AutoDeterminTeamIDbyControllerType()
+{
+	if (GetController() && GetController()->IsPlayerController())
+	{
+		TeamID = 0;
+	}
+}
