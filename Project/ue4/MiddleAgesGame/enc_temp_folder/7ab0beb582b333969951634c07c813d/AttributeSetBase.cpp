@@ -27,7 +27,6 @@ void UAttributeSetBase::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	{
 		Stamina.SetCurrentValue(FMath::Clamp(Stamina.GetCurrentValue(), 0.f, MaxStamina.GetCurrentValue()));
 		Stamina.SetBaseValue(FMath::Clamp(Stamina.GetBaseValue(), 0.f, MaxStamina.GetBaseValue()));
-		OnStaminaChange.Broadcast(Stamina.GetCurrentValue(), MaxStamina.GetCurrentValue());
 	}
 
 }

@@ -47,8 +47,6 @@ void AAssasinCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	AttributeSetComp->OnHealthChange.AddDynamic(this, &AAssasinCharacter::OnHealthChanged);
-
-	AttributeSetComp->OnStaminaChange.AddDynamic(this, &AAssasinCharacter::OnStaminaChanged);
 }
 
 void AAssasinCharacter::MoveForward(float Value)
@@ -205,13 +203,6 @@ void AAssasinCharacter::OnHealthChanged(float Health, float MaxHealth)
 		bIsDead = true;
 	}
 	BP_OnHealthChanged(Health, MaxHealth);
-}
-
-
-void AAssasinCharacter::OnStaminaChanged(float Stamina, float MaxStamina)
-{
-	BP_OnStaminaChanged(Stamina, MaxStamina);
-	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, FString::Printf(TEXT("Stamina is %f"), Stamina));
 }
 
 bool AAssasinCharacter::IsOtherHostile(AMAGCharacter* Other)

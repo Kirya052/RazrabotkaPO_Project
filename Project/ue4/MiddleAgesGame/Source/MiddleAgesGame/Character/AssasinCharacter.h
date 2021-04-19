@@ -67,7 +67,7 @@ public:
 	class UAttributeSetBase* AttributeSetComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon Collision")
-	float WeaponCapsuleHeight=20.0f;
+	float WeaponCapsuleHeight = 20.0f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
 	bool bIsWeaponSpawned = false;
@@ -88,6 +88,12 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Assasin Character", meta = (DisplayName = "OnHealthChanged"))
 	void BP_OnHealthChanged(float Health, float MaxHealth);
+
+	UFUNCTION()
+	void OnStaminaChanged(float Stamina, float MaxStamina);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Assasin Character", meta = (DisplayName = "OnStaminaChanged"))
+	void BP_OnStaminaChanged(float Stamina, float MaxStamina);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Assasin Character", meta = (DisplayName = "Die"))
 	void BP_DIe();

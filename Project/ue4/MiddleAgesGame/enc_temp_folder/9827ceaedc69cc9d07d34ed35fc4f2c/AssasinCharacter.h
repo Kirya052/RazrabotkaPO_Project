@@ -34,7 +34,10 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 	void CheckForInteractables();
 
+	UFUNCTION(BlueprintCallable, Category = "Assasin Weapon")
 	virtual void SpawnWeapon() override;
+
+	UFUNCTION(BlueprintCallable, Category = "Assasin weapon")
 	virtual void EquipWeapon() override;
 
 protected:
