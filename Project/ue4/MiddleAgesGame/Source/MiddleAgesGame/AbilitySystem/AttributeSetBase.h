@@ -32,9 +32,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet base")
 	FGameplayAttributeData MaxStamina;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet base")
+	FGameplayAttributeData Mana;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSet base")
+	FGameplayAttributeData MaxMana;
+
 	void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 
 	FOnStatChangeDelegate OnHealthChange;
 
 	FOnStatChangeDelegate OnStaminaChange;
+
+	FOnStatChangeDelegate OnManaChange;
 };

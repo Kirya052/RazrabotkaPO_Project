@@ -89,6 +89,8 @@ public:
 
 protected:
 	uint8 TeamID;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI Character")
 	bool bIsDead = false;
 
 	virtual void Dead() override;

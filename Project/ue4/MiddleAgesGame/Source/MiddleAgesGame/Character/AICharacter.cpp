@@ -29,6 +29,8 @@ AAICharacter::AAICharacter()
 
 	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComp");
 	AttributeSetComp = CreateDefaultSubobject<UAttributeSetBase>("AttributeSetBase");
+
+	TeamID = 255;
 }
 
 
@@ -37,6 +39,7 @@ void AAICharacter::BeginPlay()
 	Super::BeginPlay();
 
 	AttributeSetComp->OnHealthChange.AddDynamic(this, &AAICharacter::OnHealthChanged);
+	
 }
 
 void AAICharacter::MoveForward(float Value)
@@ -152,9 +155,9 @@ void AAICharacter::OnHealthChanged(float Health, float MaxHealth)
 {
 	if (Health <= 0.f)
 	{
-		bIsDead = true;
 		Dead();
 		BP_Die();
+		bIsDead = true;
 	}
 	BP_OnHealthChanged(Health, MaxHealth);
 }

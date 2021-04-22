@@ -49,6 +49,12 @@ void AAssasinCharacter::BeginPlay()
 	AttributeSetComp->OnHealthChange.AddDynamic(this, &AAssasinCharacter::OnHealthChanged);
 
 	AttributeSetComp->OnStaminaChange.AddDynamic(this, &AAssasinCharacter::OnStaminaChanged);
+
+	AttributeSetComp->OnManaChange.AddDynamic(this, &AAssasinCharacter::OnManaChanged);
+
+	AddGameplayTag(FullHealthTag);
+
+	AutoDeterminTeamIDbyControllerType();
 }
 
 void AAssasinCharacter::MoveForward(float Value)
@@ -211,12 +217,30 @@ void AAssasinCharacter::OnHealthChanged(float Health, float MaxHealth)
 void AAssasinCharacter::OnStaminaChanged(float Stamina, float MaxStamina)
 {
 	BP_OnStaminaChanged(Stamina, MaxStamina);
-	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Red, FString::Printf(TEXT("Stamina is %f"), Stamina));
+}
+
+
+void AAssasinCharacter::OnManaChanged(float Mana, float MaxMana)
+{
+	BP_OnManaChanged(Mana, MaxMana);
 }
 
 bool AAssasinCharacter::IsOtherHostile(AMAGCharacter* Other)
 {
 	return TeamID != Other->GetTeamID();
+}
+
+
+void AAssasinCharacter::AddGameplayTag(FGameplayTag& TagToAdd)
+{
+	GetAbilitySystemComponent()->AddLooseGameplayTag(TagToAdd);
+	GetAbilitySystemComponent()->SetTagMapCount(TagToAdd, 1);
+}
+
+
+void AAssasinCharacter::RemoveGameplayTag(FGameplayTag& TagToRemove)
+{
+	GetAbilitySystemComponent()->RemoveLooseGameplayTag(TagToRemove);
 }
 
 void AAssasinCharacter::Dead()

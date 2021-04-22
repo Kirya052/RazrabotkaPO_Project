@@ -78,6 +78,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Assasin Character")
 	FName SocketName = "SwordSocket";
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Assasin Health")
+	FGameplayTag FullHealthTag;
+
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Assasin Character")
@@ -95,11 +98,23 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Assasin Character", meta = (DisplayName = "OnStaminaChanged"))
 	void BP_OnStaminaChanged(float Stamina, float MaxStamina);
 
+	UFUNCTION()
+	void OnManaChanged(float Mana, float MaxMana);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Assasin Character", meta = (DisplayName = "OnManaChanged"))
+	void BP_OnManaChanged(float Mana, float MaxMana);
+
 	UFUNCTION(BlueprintImplementableEvent, Category = "Assasin Character", meta = (DisplayName = "Die"))
 	void BP_DIe();
 
 	UFUNCTION(BlueprintCallable, Category = "Assasin Character")
 	bool IsOtherHostile(AMAGCharacter* Other);
+
+	UFUNCTION(BlueprintCallable, Category = "Assasin Health")
+	void AddGameplayTag(FGameplayTag& TagToAdd);
+
+	UFUNCTION(BlueprintCallable, Category = "Assasin Health")
+	void RemoveGameplayTag(FGameplayTag& TagToRemove);
 
 protected:
 	uint8 TeamID;
